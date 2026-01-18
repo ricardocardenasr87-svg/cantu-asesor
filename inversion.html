@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Estrategias de Inversión | AMIB Figura 3 | Cantú Asesores</title>
+  <meta name="description" content="Estrategias de inversión con enfoque al retiro. Certificación AMIB Figura 3. Agenda una asesoría para definir tu estrategia y asignación de activos." />
+  <meta name="theme-color" content="#071525" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <style>
+    /* =========================================
+       ESTILOS ESPECÍFICOS DE INVERSIÓN
+       ========================================= */
+
+    /* Hero Layout Específico */
+    .invest-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(234,242,255,0.08);
+      margin-bottom: 60px;
+    }
+
+    /* Tarjeta 3D Flotante (Asset Allocation Visual) */
+    .strategy-card-3d {
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 30px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+      transition: transform 0.5s ease;
+      position: relative;
+    }
+
+    .strategy-card-3d:hover {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-10px);
+      border-color: rgba(195,162,75,0.3);
+    }
+
+    /* Gráficas simuladas con CSS */
+    .chart-bar-group { margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
+    .chart-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #b8c7e6; margin-bottom: 5px; }
+    .progress-bg { height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; animation: fillBar 2s ease-out forwards; width: 0; }
+    
+    .fill-gold { background: linear-gradient(90deg, #d4b560, #f0d890); }
+    .fill-blue { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .fill-teal { background: linear-gradient(90deg, #14b8a6, #2dd4bf); }
+
+    @keyframes fillBar { to { width: var(--w); } }
+
+    /* Floating Badge */
+    .float-badge {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: #bf9b30;
+      color: #050e19;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      box-shadow: 0 10px 20px rgba(191,155,48,0.3);
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    @keyframes floatBadge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+    /* Estilos del Ticker (Igual a Productos/Index) */
+    .stock-ticker {
+      background-color: #050e19; border-bottom: 1px solid #1c3d5e; color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; height: 40px;
+      overflow: hidden; position: relative; width: 100%; z-index: 2000;
+      display: flex; align-items: center;
+    }
+    .ticker-wrapper { display: flex; position: absolute; white-space: nowrap; animation: ticker-scroll 35s linear infinite; }
+    .ticker-item { display: inline-flex; align-items: center; margin-right: 40px; }
+    .ticker-name { font-weight: 600; margin-right: 8px; color: #ccc; }
+    .ticker-val { font-weight: 400; margin-right: 5px; }
+    .ticker-change { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+    .down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+    @keyframes ticker-scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+    /* Menú Móvil */
+    .mobile-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; justify-content: space-around; width: 30px; height: 25px; padding: 0; z-index: 1001; }
+    .mobile-toggle span { width: 100%; height: 3px; background-color: #ffffff; border-radius: 2px; transition: all 0.3s linear; }
+    
+    @media (max-width: 900px) {
+      .invest-hero { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+      .invest-hero .text-content { order: 1; }
+      .invest-hero .visual-content { order: 2; margin: 0 auto; width: 100%; max-width: 400px; }
+      .strategy-card-3d { transform: none; }
+      .strategy-card-3d:hover { transform: translateY(-5px); }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-toggle { display: flex; }
+      .nav { position: fixed; top: 0; right: -100%; width: 75%; height: 100vh; background-color: #0b1d30; box-shadow: -5px 0 15px rgba(0,0,0,0.5); flex-direction: column; justify-content: center; align-items: center; gap: 30px; transition: right 0.3s ease-in-out; z-index: 1000; padding: 20px; backdrop-filter: blur(15px); }
+      .nav.open { right: 0; }
+      .mobile-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+      .mobile-toggle.open span:nth-child(2) { opacity: 0; }
+      .mobile-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+      .nav a { font-size: 1.2rem; width: 100%; text-align: center; }
+      .nav .cta { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles" id="particles"></div>
+
+  <div class="stock-ticker">
+    <div class="ticker-wrapper">
+      <div class="ticker-item"><span class="ticker-name">S&P 500</span><span class="ticker-val">4,783.45</span><span class="ticker-change up">▲ 0.54%</span></div>
+      <div class="ticker-item"><span class="ticker-name">NASDAQ</span><span class="ticker-val">15,310.97</span><span class="ticker-change up">▲ 0.89%</span></div>
+      <div class="ticker-item"><span class="ticker-name">IPC México</span><span class="ticker-val">55,432.10</span><span class="ticker-change up">▲ 0.21%</span></div>
+      <div class="ticker-item"><span class="ticker-name">USD/MXN</span><span class="ticker-val">17.05</span><span class="ticker-change down">▼ 0.08%</span></div>
+      <div class="ticker-item"><span class="ticker-name">CETES 28D</span><span class="ticker-val">11.25%</span><span class="ticker-change up">===</span></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="topbar">
+        <a href="index.html" class="brand">
+          <div class="brand-mark">CA</div>
+          <div class="brand-text">
+            <div class="brand-name">Cantú Asesores</div>
+            <div class="brand-sub">Allianz • AMIB Figura 3</div>
+          </div>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="ppr.html">PPR</a>
+          <a href="productos.html">Productos</a>
+          <a href="inversion.html" class="active">Inversión</a>
+          <a href="agenda.html" class="cta">Agendar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" style="padding-top:40px;">
+      <div class="container">
+        
+        <div class="invest-hero">
+          <div class="text-content">
+            <span class="badge">Estrategia Certificada</span>
+            <h1>Arquitectura financiera para tu Retiro</h1>
+            <p class="lead">Invertir no es adivinar. Es diseñar una asignación de activos (Asset Allocation) coherente con tu horizonte, tolerancia al riesgo y objetivos patrimoniales.</p>
+            <div class="hero-actions">
+              <a class="btn primary" href="agenda.html">Diseñar mi portafolio</a>
+              <a class="btn ghost" href="#perfiles">Ver perfiles</a>
+            </div>
+          </div>
+          
+          <div class="visual-content">
+            <div class="strategy-card-3d">
+              <div class="float-badge">AMIB Figura 3</div>
+              <h3 style="margin:0; font-size:1.1rem; color:#fff;">Modelo de Asignación</h3>
+              <p style="font-size:0.8rem; color:var(--muted); margin-bottom:20px;">Ejemplo de diversificación balanceada</p>
+              
+              <div class="chart-bar-group">
+                <div>
+                  <div class="chart-label"><span>Renta Variable (S&P500 / Global)</span><span>60%</span></div>
+                  <div class="progress-bg"><div class="progress-fill fill-blue" style="--w: 60%"></div></div>
+                </div>
+                <div>
+                  <div class="chart-label"><span>Renta Fija (Bonos / Deuda)</span><span>30%</span></div>
+                  <div class="progress-bg"><div class="progress-fill fill-gold" style="--w: 30%"></div></div>
+                </div>
+                <div>
+                  <div class="chart-label"><span>Activos Alternativos / Liquidez</span><span>10%</span></div>
+                  <div class="progress-bg"><div class="progress-fill fill-teal" style="--w: 10%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-head center" style="margin-bottom:40px;">
+          <h2>Metodología de Asesoría</h2>
+          <p>Un proceso estructurado para eliminar el ruido del mercado y enfocarnos en tu meta.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="step-num" style="margin-bottom:15px;">1</div>
+            <h3>Diagnóstico (KYC)</h3>
+            <p>No existe el "mejor fondo" universal. Analizamos tu horizonte temporal, necesidades de liquidez y aversión a la pérdida.</p>
+          </div>
+          <div class="card">
+            <div class="step-num" style="margin-bottom:15px;">2</div>
+            <h3>Asignación (Allocation)</h3>
+            <p>Construimos el portafolio seleccionando los ETFs o fondos (Pesos, Dólares, Euros) disponibles en tu plan Allianz.</p>
+          </div>
+          <div class="card">
+            <div class="step-num" style="margin-bottom:15px;">3</div>
+            <h3>Rebalanceo</h3>
+            <p>El mercado se mueve. Revisamos periódicamente (semestral/anual) para ajustar el rumbo y mantener la estrategia alineada.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section alt" id="perfiles">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <h2>Perfiles de Inversión</h2>
+            <p class="lead">¿Qué tipo de inversionista eres?</p>
+            <p class="muted">La clave del éxito en un PPR es sostener la estrategia en los momentos difíciles. Por eso, el portafolio debe dejarte dormir tranquilo.</p>
+            
+            <ul class="checklist" style="margin-top:20px;">
+              <li>Acceso a índices globales (S&P 500, Nasdaq).</li>
+              <li>Opciones en Mercados Emergentes (China, BRIC).</li>
+              <li>Estabilidad en Bonos y Deuda Gubernamental.</li>
+              <li>Estrategias dinámicas gestionadas por Allianz.</li>
+            </ul>
+          </div>
+
+          <div style="display:grid; gap:16px;">
+            <div class="card" style="padding:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0; font-size:1rem;">Conservador</h3>
+                <span class="pill">Preservación</span>
+              </div>
+              <p style="font-size:0.85rem; margin-bottom:10px;">Prioridad: Proteger el capital con crecimiento moderado.</p>
+              <div class="progress-bg"><div class="progress-fill fill-gold" style="--w: 30%"></div></div>
+            </div>
+
+            <div class="card" style="padding:20px; border-color:rgba(195,162,75,0.4);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0; font-size:1rem; color:#fff;">Balanceado / Crecimiento</h3>
+                <span class="pill" style="background:rgba(195,162,75,0.2);">Más Común</span>
+              </div>
+              <p style="font-size:0.85rem; margin-bottom:10px;">Equilibrio entre renta variable (acciones) y renta fija.</p>
+              <div class="progress-bg"><div class="progress-fill fill-blue" style="--w: 65%"></div></div>
+            </div>
+
+            <div class="card" style="padding:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0; font-size:1rem;">Agresivo / Dinámico</h3>
+                <span class="pill">Maximización</span>
+              </div>
+              <p style="font-size:0.85rem; margin-bottom:10px;">Alta volatilidad a cambio de mayor retorno potencial a largo plazo.</p>
+              <div class="progress-bg"><div class="progress-fill fill-teal" style="--w: 90%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notice" style="margin-top:40px;">
+           <strong>Aviso Importante:</strong> Rendimientos pasados no garantizan rendimientos futuros. La selección de fondos depende de la disponibilidad del producto contratado (OptiMaxx Plus, etc.). Como asesor certificado, mi rol es guiarte en la selección, pero el riesgo de mercado es inherente a la inversión.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script defer src="assets/app.js"></script>
+  <script>
+    // ============================================
+    // MENU MÓVIL
+    // ============================================
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const nav = document.querySelector('.nav');
+    if (mobileToggle && nav) {
+      mobileToggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+        mobileToggle.classList.toggle('open');
+      });
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+           nav.classList.remove('open');
+           mobileToggle.classList.remove('open');
+        });
+      });
+    }
+
+    // ============================================
+    // WHATSAPP
+    // ============================================
+    document.querySelectorAll('[data-whatsapp]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const phoneNumber = '528180000000'; 
+        const message = encodeURIComponent('Hola, me gustaría definir una estrategia de inversión.');
+        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+      });
+    });
+
+    // ============================================
+    // PARTÍCULAS
+    // ============================================
+    const particlesContainer = document.getElementById('particles');
+    if(particlesContainer) {
+        const particleCount = 20;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // ============================================
+    // ANIMACIONES SCROLL (Staggered)
+    // ============================================
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          // Si es una barra de progreso, disparamos la animación de ancho
+          const progress = entry.target.querySelector('.progress-fill');
+          if(progress) {
+             progress.style.width = progress.getAttribute('style').split(':')[1].replace(';', '');
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Elementos generales
+    document.querySelectorAll('.section-head, .text-content, .visual-content').forEach(el => {
+      el.style.opacity = '0'; 
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+      fadeInObserver.observe(el);
+    });
+
+    // Cards en cascada
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      let delay = (index % 3) * 0.15; 
+      card.style.transition = `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s`;
+      fadeInObserver.observe(card);
+    });
+  </script>
+</body>
+</html>

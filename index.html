@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cantú Asesores | PPR, Seguros Allianz y Estrategias de Inversión</title>
+  <meta name="description" content="Agenda una asesoría con Cantú Asesores. Conoce productos de Allianz, opciones de PPR y acompañamiento en estrategias de inversión (AMIB Figura 3)." />
+  <meta name="theme-color" content="#071525" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <style>
+    /* =========================================
+       ESTILOS ESPECÍFICOS DEL INDEX + RESPONSIVE
+       ========================================= */
+
+    /* Ticker Financiero */
+    .stock-ticker {
+      background-color: #050e19; border-bottom: 1px solid #1c3d5e; color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; height: 40px;
+      overflow: hidden; position: relative; width: 100%; z-index: 2000;
+      display: flex; align-items: center;
+    }
+    .ticker-wrapper { display: flex; position: absolute; white-space: nowrap; animation: ticker-scroll 35s linear infinite; }
+    .ticker-item { display: inline-flex; align-items: center; margin-right: 40px; }
+    .ticker-name { font-weight: 600; margin-right: 8px; color: #ccc; }
+    .ticker-val { font-weight: 400; margin-right: 5px; }
+    .ticker-change { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+    .down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+    @keyframes ticker-scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+    /* --- CORRECCIÓN DE LA BARRA DESLIZANTE (SLIDER) --- */
+    
+    /* Reset general para el input */
+    input[type=range] {
+      -webkit-appearance: none; /* Elimina estilo por defecto de Chrome/Safari */
+      appearance: none;
+      width: 100%;
+      background: transparent; /* Fondo transparente para el contenedor */
+      margin: 10px 0;
+    }
+
+    /* ESTILO DE LA LÍNEA (TRACK) - CHROME, SAFARI, EDGE, OPERA */
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px; /* Altura de la línea */
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2); /* Color de la línea (gris claro visible) */
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ESTILO DE LA LÍNEA (TRACK) - FIREFOX */
+    input[type=range]::-moz-range-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ESTILO DEL PUNTO (THUMB) - CHROME, SAFARI */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 24px; /* Tamaño del punto */
+      width: 24px;
+      border-radius: 50%;
+      background: #d4b560; /* Color dorado */
+      cursor: pointer;
+      margin-top: -10px; /* Centrar el punto en la línea: (6px - 24px) / 2 = -9px aprox */
+      box-shadow: 0 0 15px rgba(212,181,96, 0.6); /* Brillo */
+      border: 2px solid #fff; /* Borde blanco para que resalte */
+    }
+
+    /* ESTILO DEL PUNTO (THUMB) - FIREFOX */
+    input[type=range]::-moz-range-thumb {
+      height: 24px;
+      width: 24px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      background: #d4b560;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(212,181,96, 0.6);
+    }
+
+    /* --- LAYOUT GRID RESPONSIVO (Fix Mini Cards) --- */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .hero-mini {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 18px;
+      transition: transform 0.3s ease;
+    }
+    
+    @media (max-width: 968px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .hero-mini {
+        grid-template-columns: 1fr; /* Una debajo de otra en celular */
+        gap: 15px;
+      }
+      .mini-card { padding: 20px; }
+      h1 { font-size: 2.2rem; }
+      .hero-content-anim { margin-bottom: 20px; }
+    }
+
+    /* Menú Móvil Botón */
+    .mobile-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; justify-content: space-around; width: 30px; height: 25px; padding: 0; z-index: 1001; }
+    .mobile-toggle span { width: 100%; height: 3px; background-color: #ffffff; border-radius: 2px; transition: all 0.3s linear; }
+    
+    @media (max-width: 768px) {
+      .mobile-toggle { display: flex; }
+      .nav { position: fixed; top: 0; right: -100%; width: 75%; height: 100vh; background-color: #0b1d30; box-shadow: -5px 0 15px rgba(0,0,0,0.5); flex-direction: column; justify-content: center; align-items: center; gap: 30px; transition: right 0.3s ease-in-out; z-index: 1000; padding: 20px; backdrop-filter: blur(15px); }
+      .nav.open { right: 0; }
+      .mobile-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+      .mobile-toggle.open span:nth-child(2) { opacity: 0; }
+      .mobile-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+      .nav a { font-size: 1.2rem; width: 100%; text-align: center; }
+      .nav .cta { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles" id="particles"></div>
+
+  <div class="stock-ticker">
+    <div class="ticker-wrapper">
+      <div class="ticker-item"><span class="ticker-name">S&P 500</span><span class="ticker-val">4,783.45</span><span class="ticker-change up">▲ 0.54%</span></div>
+      <div class="ticker-item"><span class="ticker-name">IPC México</span><span class="ticker-val">55,432.10</span><span class="ticker-change up">▲ 0.21%</span></div>
+      <div class="ticker-item"><span class="ticker-name">USD/MXN</span><span class="ticker-val">17.05</span><span class="ticker-change down">▼ 0.08%</span></div>
+      <div class="ticker-item"><span class="ticker-name">Euro</span><span class="ticker-val">18.62</span><span class="ticker-change up">▲ 0.12%</span></div>
+      <div class="ticker-item"><span class="ticker-name">UDI</span><span class="ticker-val">8.10</span><span class="ticker-change up">▲ 0.02%</span></div>
+      <div class="ticker-item"><span class="ticker-name">Gold</span><span class="ticker-val">2,045.30</span><span class="ticker-change up">▲ 1.10%</span></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="topbar">
+        <a href="index.html" class="brand">
+          <div class="brand-mark">CA</div>
+          <div class="brand-text">
+            <div class="brand-name">Cantú Asesores</div>
+            <div class="brand-sub">Allianz • AMIB Figura 3</div>
+          </div>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav">
+          <a href="index.html" class="active">Inicio</a>
+          <a href="ppr.html">PPR</a>
+          <a href="productos.html">Productos</a>
+          <a href="inversion.html">Inversión</a>
+          <a href="agenda.html" class="cta">Agendar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <div class="hero-content-anim">
+            <span class="badge">Asesoría personalizada</span>
+            <h1>Protege, planea tu retiro y define tu estrategia.</h1>
+            <p class="lead">
+              Soy Ricardo Cantú, asesor certificado. Trabajo con <strong>Allianz</strong> para ayudarte a construir un patrimonio sólido, con ventajas fiscales y una estrategia de inversión (Asset Allocation) a tu medida.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn primary" href="agenda.html">Agendar asesoría</a>
+              <a class="btn ghost" href="productos.html">Ver productos Allianz</a>
+            </div>
+
+            <div class="hero-mini">
+              <div class="mini-card">
+                <div class="kicker">Enfoque</div>
+                <div class="value">Retiro + Protección</div>
+                <div class="sub">PPR deducible</div>
+              </div>
+              <div class="mini-card">
+                <div class="kicker">Certificación</div>
+                <div class="value">AMIB Figura 3</div>
+                <div class="sub">Estrategias de inversión</div>
+              </div>
+              <div class="mini-card">
+                <div class="kicker">Acompañamiento</div>
+                <div class="value">Integral</div>
+                <div class="sub">Diagnóstico y seguimiento</div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="card hero-card">
+            <h2>¿Qué hacemos en una asesoría?</h2>
+            <div class="steps">
+              <div class="step">
+                <div class="step-num">1</div>
+                <div>
+                  <div class="step-title">Objetivo y diagnóstico</div>
+                  <div class="step-text">Definimos tu horizonte de retiro, liquidez y prioridades.</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div>
+                  <div class="step-title">Propuesta clara</div>
+                  <div class="step-text">Alternativas de Allianz y un plan de aportación realista.</div>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-num">3</div>
+                <div>
+                  <div class="step-title">Estrategia de inversión</div>
+                  <div class="step-text">Distribución de activos según tu perfil de riesgo.</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-actions" style="margin-top:20px">
+              <a class="btn primary" href="agenda.html">Agendar</a>
+              <a class="btn subtle" data-whatsapp href="#">WhatsApp</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="position:relative; overflow:hidden; background: rgba(0,0,0,0.15); border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05);">
+      <div style="position:absolute; top:20%; left:-10%; width:50%; height:50%; background:radial-gradient(circle, rgba(195,162,75,0.08), transparent 70%); pointer-events:none;"></div>
+
+      <div class="container">
+        <div class="two-col" style="align-items:center;">
+          <div>
+            <span class="badge">El poder del interés compuesto</span>
+            <h2>Visualiza tu futuro</h2>
+            <p class="lead">El tiempo es tu mejor activo. Mira lo que sucede si empiezas hoy con una estrategia indexada disciplinada.</p>
+            <p class="muted">Desliza para simular tu aportación mensual:</p>
+            
+            <div style="margin-top:30px;">
+              <div style="display:flex; justify-content:space-between; font-weight:600; margin-bottom:15px; font-family:'Montserrat', sans-serif;">
+                <span>Aportación Mensual:</span>
+                <span id="displayAmount" style="color:#d4b560; font-size:1.2rem;">$5,000</span>
+              </div>
+              <input type="range" id="amountRange" min="2000" max="20000" step="500" value="5000">
+            </div>
+          </div>
+
+          <div class="card" style="text-align:center; border: 1px solid rgba(195,162,75,0.3); background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2)); box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+            <h3 style="font-size:1rem; color:#b8c7e6; margin-bottom:5px; text-transform:uppercase; letter-spacing:1px;">Saldo proyectado a 25 años*</h3>
+            
+            <div id="finalResult" style="font-size:3rem; font-weight:800; color:#fff; font-family:'Montserrat', sans-serif; line-height:1; margin: 20px 0;">
+              $6,634,000
+            </div>
+            
+            <div style="font-size:0.8rem; color:#4ade80; background:rgba(74,222,128,0.1); display:inline-block; padding:6px 14px; border-radius:20px; margin-bottom:20px; font-weight:600;">
+              ▲ Rendimiento compuesto estimado (10%)
+            </div>
+
+            <p class="muted" style="font-size:0.75rem; line-height:1.4;">*Cifra ilustrativa basada en rendimiento histórico del S&P500. No garantiza resultados futuros.</p>
+            
+            <a class="btn primary" href="agenda.html" style="width:100%; margin-top:15px;">Quiero este plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head center" style="text-align:center;">
+          <h2>Rápido, sin vueltas</h2>
+          <p>Un mapa simple para que encuentres lo que necesitas.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>PPR (Retiro)</h3>
+            <p>Planeación a largo plazo con una estructura ordenada para tus aportaciones y máximos beneficios fiscales.</p>
+            <a class="link" href="ppr.html">Ver cómo funciona →</a>
+          </article>
+          <article class="card">
+            <h3>Productos Allianz</h3>
+            <p>Conoce las categorías principales: Vida, Gastos Médicos, Educación y Ahorro Patrimonial.</p>
+            <a class="link" href="productos.html">Explorar productos →</a>
+          </article>
+          <article class="card">
+            <h3>Estrategia (Figura 3)</h3>
+            <p>No adivines. Define la asignación de tus aportaciones a instrumentos financieros con base técnica.</p>
+            <a class="link" href="inversion.html">Ver enfoque →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="two-col">
+          <div class="text-anim">
+            <h2>Confianza, datos y claridad</h2>
+            <p>
+              Tu patrimonio no quiere discursos complicados: quiere claridad. Entender <strong>qué es</strong>, <strong>qué ganas</strong> y <strong>qué sigue</strong>.
+            </p>
+
+            <ul class="checklist">
+              <li>Lenguaje simple y profesional.</li>
+              <li>Atención directa en San Nicolás de los Garza y online.</li>
+              <li>Soporte continuo vía WhatsApp.</li>
+            </ul>
+
+            <div class="card" style="margin-top:30px; padding:0; overflow:hidden; border:1px solid rgba(195,162,75,0.2);">
+              <div style="padding:15px 20px; background:rgba(195,162,75,0.1); border-bottom:1px solid rgba(195,162,75,0.2); font-weight:700; font-size:0.9rem; color:#d4b560; text-transform:uppercase; letter-spacing:0.5px;">
+                ¿Por qué Cantú Asesores?
+              </div>
+              <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                  <td style="padding:15px; color:var(--ink);">Atención Personal</td>
+                  <td style="padding:15px; color:#4ade80; text-align:right; font-weight:600;">✓ Directa</td>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                  <td style="padding:15px; color:var(--ink);">Estrategia Inversión</td>
+                  <td style="padding:15px; color:#4ade80; text-align:right; font-weight:600;">✓ AMIB Fig. 3</td>
+                </tr>
+                <tr>
+                  <td style="padding:15px; color:var(--ink);">Seguimiento Anual</td>
+                  <td style="padding:15px; color:#4ade80; text-align:right; font-weight:600;">✓ Garantizado</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="card cta-anim" style="align-self:start;">
+            <h3>¿Listo para empezar?</h3>
+            <p>Agenda una cita de diagnóstico sin costo. Si ya sabes lo que buscas, escríbeme directo.</p>
+            <div class="card-actions">
+              <a class="btn primary" href="agenda.html">Agendar asesoría</a>
+              <a class="btn subtle" data-whatsapp href="#">Escribir por WhatsApp</a>
+            </div>
+            <div class="muted" style="margin-top:16px; font-size:0.8rem;">
+              <span data-city>📍 Atención presencial: San Nicolás de los Garza, N.L.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background: #06111f; padding: 35px 0; border-top: 1px solid rgba(255,255,255,0.05);">
+      <div class="container" style="display:flex; justify-content:space-around; align-items:center; flex-wrap:wrap; gap:30px; opacity:0.7;">
+        
+        <div style="font-family:'Montserrat'; font-weight:800; font-size:1.6rem; letter-spacing:1px; color:#fff; display:flex; align-items:center;">
+          Allianz <span style="color:#007ab3; margin-left:4px;">///</span>
+        </div>
+        
+        <div style="display:flex; align-items:center; gap:10px; color:#fff;">
+          <div style="border:2px solid rgba(255,255,255,0.8); padding:2px 8px; font-weight:bold; border-radius:4px; font-family:'Inter'; font-size:0.9rem;">AMIB</div>
+          <div style="display:flex; flex-direction:column; line-height:1;">
+            <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:#ccc;">Certificación</span>
+            <span style="font-size:0.9rem; font-weight:700;">Figura 3</span>
+          </div>
+        </div>
+    
+        <div style="font-family:'Times New Roman', serif; font-weight:bold; font-size:1.4rem; letter-spacing:0.5px; color:#fff;">
+          CNSF
+        </div>
+        
+        <div style="font-family:'Arial', sans-serif; font-weight:800; font-size:1.3rem; display:flex; align-items:center; color:#fff;">
+          S&P <span style="background:#fff; color:#000; padding:0 6px; margin-left:4px; border-radius:2px;">500</span>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script defer src="assets/app.js"></script>
+  <script>
+    // ============================================
+    // MENU MÓVIL
+    // ============================================
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const nav = document.querySelector('.nav');
+    if (mobileToggle && nav) {
+      mobileToggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+        mobileToggle.classList.toggle('open');
+      });
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+           nav.classList.remove('open');
+           mobileToggle.classList.remove('open');
+        });
+      });
+    }
+
+    // ============================================
+    // LÓGICA DE LA CALCULADORA
+    // ============================================
+    const slider = document.getElementById('amountRange');
+    const display = document.getElementById('displayAmount');
+    const result = document.getElementById('finalResult');
+
+    if(slider && display && result) {
+      function calculateCompound() {
+        const pmt = parseInt(slider.value);
+        const years = 25;
+        const rate = 0.10 / 12; // 10% anual mensualizado (Hipótesis S&P500)
+        const n = years * 12;
+
+        // Fórmula Valor Futuro Anualidad
+        const fv = pmt * ( (Math.pow(1 + rate, n) - 1) / rate );
+        
+        // Formateador de moneda
+        const formatter = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
+        
+        display.textContent = formatter.format(pmt);
+        
+        // Efecto visual al cambiar número
+        result.style.opacity = 0.5;
+        setTimeout(() => {
+          result.textContent = formatter.format(fv);
+          result.style.opacity = 1;
+        }, 50);
+      }
+
+      slider.addEventListener('input', calculateCompound);
+      // Calcular valor inicial al cargar
+      calculateCompound();
+    }
+
+    // ============================================
+    // WHATSAPP
+    // ============================================
+    document.querySelectorAll('[data-whatsapp]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const phoneNumber = '528180000000'; 
+        const message = encodeURIComponent('Hola Ricardo, me interesa conocer más sobre tus servicios.');
+        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+      });
+    });
+
+    // ============================================
+    // PARTÍCULAS
+    // ============================================
+    const particlesContainer = document.getElementById('particles');
+    if(particlesContainer) {
+        const particleCount = 25;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // ============================================
+    // ANIMACIONES SCROLL (STAGGERED)
+    // ============================================
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Animamos elementos clave
+    const animElements = document.querySelectorAll('.hero-content-anim, .hero-card, .section-head, .text-anim, .cta-anim, .two-col > div');
+    animElements.forEach(el => {
+      el.style.opacity = '0'; 
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+      fadeInObserver.observe(el);
+    });
+
+    // Animamos las tarjetas en grid en cascada
+    const gridCards = document.querySelectorAll('.grid-3 .card');
+    gridCards.forEach((card, index) => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      let delay = index * 0.15; 
+      card.style.transition = `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s`;
+      fadeInObserver.observe(card);
+    });
+  </script>
+</body>
+</html>

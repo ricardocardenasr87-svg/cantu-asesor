@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PPR | Planeación Estratégica para el Retiro | Cantú Asesores</title>
+  <meta name="description" content="Diseña tu Plan Personal de Retiro (PPR) con Allianz. Estrategias fiscales, portafolios de inversión y acompañamiento experto." />
+  <meta name="theme-color" content="#071525" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <style>
+    /* 1. BARRA FINANCIERA (TICKER) */
+    .stock-ticker {
+      background-color: #050e19;
+      border-bottom: 1px solid #1c3d5e;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      height: 40px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-wrapper {
+      display: flex;
+      position: absolute;
+      white-space: nowrap;
+      animation: ticker-scroll 35s linear infinite;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 40px;
+    }
+    .ticker-name { font-weight: 600; margin-right: 8px; color: #ccc; }
+    .ticker-val { font-weight: 400; margin-right: 5px; }
+    .ticker-change { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+    .down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+    @keyframes ticker-scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+    
+    /* 2. MENÚ MÓVIL (RESPONSIVE) */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 30px;
+      height: 25px;
+      padding: 0;
+      z-index: 1001; 
+    }
+    .mobile-toggle span {
+      width: 100%; height: 3px; background-color: #ffffff; border-radius: 2px; transition: all 0.3s linear;
+    }
+    @media (max-width: 768px) {
+      .mobile-toggle { display: flex; }
+      .nav {
+        position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
+        background-color: #0b1d30; box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+        flex-direction: column; justify-content: center; align-items: center; gap: 30px;
+        transition: right 0.3s ease-in-out; z-index: 1000; padding: 20px;
+      }
+      .nav.open { right: 0; }
+      .mobile-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+      .mobile-toggle.open span:nth-child(2) { opacity: 0; }
+      .mobile-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+      .nav a { font-size: 1.2rem; width: 100%; text-align: center; }
+      .nav .cta { width: 100%; text-align: center; }
+      .page-hero { padding-top: 60px; } /* Ajuste de espacio */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles" id="particles"></div>
+
+  <div class="stock-ticker">
+    <div class="ticker-wrapper">
+      <div class="ticker-item"><span class="ticker-name">S&P 500</span><span class="ticker-val">4,783.45</span><span class="ticker-change up">▲ 0.54%</span></div>
+      <div class="ticker-item"><span class="ticker-name">S&P/BMV IPC</span><span class="ticker-val">55,432.10</span><span class="ticker-change up">▲ 0.21%</span></div>
+      <div class="ticker-item"><span class="ticker-name">NASDAQ</span><span class="ticker-val">15,055.65</span><span class="ticker-change down">▼ 0.15%</span></div>
+      <div class="ticker-item"><span class="ticker-name">USD/MXN</span><span class="ticker-val">17.05</span><span class="ticker-change down">▼ 0.08%</span></div>
+      <div class="ticker-item"><span class="ticker-name">UDI</span><span class="ticker-val">8.10</span><span class="ticker-change up">▲ 0.02%</span></div>
+      <div class="ticker-item"><span class="ticker-name">Allianz Dinámica</span><span class="ticker-val">ETF Ref</span><span class="ticker-change up">▲ 1.2%</span></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="topbar">
+        <a href="index.html" class="brand">
+          <div class="brand-mark" style="background:#bf9b30; color:white; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:bold;">CA</div>
+          <div class="brand-text">
+            <div class="brand-name">Cantú Asesores</div>
+            <div class="brand-sub" style="font-size:0.75rem; opacity:0.8;">Allianz • AMIB Figura 3</div>
+          </div>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="ppr.html" class="active">PPR</a>
+          <a href="productos.html">Productos</a>
+          <a href="inversion.html">Inversión</a>
+          <a href="agenda.html" class="cta">Agendar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <div class="page-hero-grid">
+          <div>
+            <h1>Plan Personal de Retiro: Tu futuro, con estrategia.</h1>
+            <p class="lead">
+              Un PPR no es solo una cuenta de ahorro; es un vehículo fiscal y financiero de largo plazo. 
+              Mi objetivo es ayudarte a estructurar un plan con Allianz que maximice beneficios fiscales 
+              y utilice portafolios de inversión adecuados a tu tolerancia al riesgo.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="agenda.html">Agendar diagnóstico</a>
+              <a class="btn ghost" href="inversion.html">Ver estrategia de inversión</a>
+            </div>
+          </div>
+          
+          <div class="card">
+            <h3>Puntos clave</h3>
+            <ul class="list">
+              <li><strong>Meta Clara:</strong> Edad de retiro y monto objetivo.</li>
+              <li><strong>Deducibilidad:</strong> Beneficio fiscal anual (ISR).</li>
+              <li><strong>Horizonte:</strong> Interés compuesto a tu favor.</li>
+              <li><strong>Flexibilidad:</strong> Ajustes según ciclo de vida.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+            <h2>Metodología de Asesoría</h2>
+            <p>No improvisamos. Seguimos un proceso estructurado para garantizar que tu plan sea sostenible.</p>
+        </div>
+        
+        <div class="grid-3">
+          <div class="card">
+            <h3>1. Diagnóstico Financiero</h3>
+            <p>Analizamos tu flujo de efectivo actual, capacidad de ahorro, obligaciones fiscales y metas patrimoniales para definir el punto de partida.</p>
+          </div>
+          <div class="card">
+            <h3>2. Diseño del Plan</h3>
+            <p>Proyectamos escenarios con distintos montos de aportación. Buscamos el equilibrio entre una pensión digna y tu liquidez presente.</p>
+          </div>
+          <div class="card">
+            <h3>3. Selección de Portafolio</h3>
+            <p>Implementamos la estrategia de inversión (AMIB Figura 3). Elegimos ETFs o fondos indexados que coincidan con tu perfil de riesgo y plazo.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <h2>Preguntas Frecuentes</h2>
+            <details class="faq" open>
+              <summary>¿Cuál es la aportación mínima sugerida?</summary>
+              <p>Aunque los productos permiten flexibilidad, sugiero iniciar con un monto que represente al menos el 10% de tu ingreso mensual, o lo necesario para topar tu deducción fiscal.</p>
+            </details>
+            <details class="faq">
+              <summary>¿Es obligatorio hacerla deducible?</summary>
+              <p>No. Existen modalidades no deducibles que ofrecen beneficios fiscales al final del plazo (exención de impuestos tras los 60 años y 5 de vigencia).</p>
+            </details>
+            <details class="faq">
+              <summary>¿Puedo modificar mi estrategia de inversión?</summary>
+              <p>Sí. Parte de mi servicio de seguimiento anual es revisar el rendimiento y rebalancear el portafolio si tu perfil o las condiciones de mercado cambian.</p>
+            </details>
+          </div>
+
+          <div class="card">
+            <h3>Solicita tu proyección</h3>
+            <p>Agenda una sesión breve. Te entregaré un escenario numérico personalizado para que tomes una decisión informada.</p>
+            
+            <div class="card-actions">
+              <a class="btn primary" href="agenda.html">Agendar Cita</a>
+              <a class="btn subtle" data-whatsapp href="#">WhatsApp Directo</a>
+            </div>
+            <div class="muted" style="margin-top:15px; font-size: 0.8rem;">
+               *La información final y condiciones dependen de la documentación contractual de Allianz.
+            </div>
+          </div>
+        </div>
+        
+        <div class="notice">
+            Aviso Legal: El contenido de este sitio es informativo y no constituye una oferta vinculante ni asesoría fiscal oficial. Las recomendaciones de inversión se realizan tras un perfilamiento adecuado.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script defer src="assets/app.js"></script>
+  <script>
+    // ============================================
+    // 1. LÓGICA DEL MENÚ MÓVIL
+    // ============================================
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const nav = document.querySelector('.nav');
+    
+    if (mobileToggle && nav) {
+      mobileToggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+        mobileToggle.classList.toggle('open');
+      });
+      // Cerrar al dar click en enlace
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+           nav.classList.remove('open');
+           mobileToggle.classList.remove('open');
+        });
+      });
+    }
+
+    // ============================================
+    // 2. WHATSAPP HANDLER
+    // ============================================
+    document.querySelectorAll('[data-whatsapp]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const phoneNumber = '528180000000'; // TU NÚMERO
+        const message = encodeURIComponent('Hola, me interesa una proyección de PPR.');
+        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+      });
+    });
+
+    // ============================================
+    // 3. FONDO DE PARTÍCULAS
+    // ============================================
+    const particlesContainer = document.getElementById('particles');
+    if(particlesContainer) {
+        const particleCount = 25; 
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            // Variar duración para efecto orgánico
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // ============================================
+    // 4. ANIMACIONES AL HACER SCROLL (FADE IN)
+    // ============================================
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Seleccionamos cartas, items de lista y FAQs para animar
+    document.querySelectorAll('.card, .faq, .list li').forEach(el => {
+      el.style.opacity = '0'; 
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      fadeInObserver.observe(el);
+    });
+  </script>
+</body>
+</html>

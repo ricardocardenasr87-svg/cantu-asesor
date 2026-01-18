@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agenda tu Asesoría | Cantú Asesores</title>
+  <meta name="description" content="Agenda una sesión de diagnóstico financiero gratuita. Especialistas en PPR Allianz y Estrategias de Inversión." />
+  <meta name="theme-color" content="#071525" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <style>
+    /* =========================================
+       ESTILOS ESPECÍFICOS DE AGENDA
+       ========================================= */
+
+    .agenda-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 60px;
+      align-items: start;
+      margin-top: 40px;
+    }
+
+    /* Tarjeta de Contacto (Business Card Style) */
+    .contact-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(195,162,75,0.2);
+      border-radius: 24px;
+      padding: 30px;
+      backdrop-filter: blur(15px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: linear-gradient(to bottom, #bf9b30, transparent);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .contact-icon {
+      width: 40px; height: 40px;
+      background: rgba(195,162,75,0.1);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #bf9b30;
+      flex-shrink: 0;
+    }
+
+    /* Placeholder para el Calendario (Calendly) */
+    .booking-wrapper {
+      background: #0b1c33;
+      border-radius: 24px;
+      border: 1px solid rgba(234,242,255,0.1);
+      overflow: hidden;
+      min-height: 500px; /* Altura ideal para Calendly */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      position: relative;
+    }
+
+    .booking-placeholder-content h3 { color: #fff; margin-bottom: 10px; }
+    
+    /* Efecto de brillo en el calendario */
+    .booking-wrapper::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(195,162,75,0.05), transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Estilos del Ticker (Igual a Productos/Index) */
+    .stock-ticker {
+      background-color: #050e19; border-bottom: 1px solid #1c3d5e; color: #fff;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; height: 40px;
+      overflow: hidden; position: relative; width: 100%; z-index: 2000;
+      display: flex; align-items: center;
+    }
+    .ticker-wrapper { display: flex; position: absolute; white-space: nowrap; animation: ticker-scroll 35s linear infinite; }
+    .ticker-item { display: inline-flex; align-items: center; margin-right: 40px; }
+    .ticker-name { font-weight: 600; margin-right: 8px; color: #ccc; }
+    .ticker-val { font-weight: 400; margin-right: 5px; }
+    .ticker-change { font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; font-weight: 600; }
+    .up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+    .down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+    @keyframes ticker-scroll { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+    /* Menú Móvil */
+    .mobile-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; justify-content: space-around; width: 30px; height: 25px; padding: 0; z-index: 1001; }
+    .mobile-toggle span { width: 100%; height: 3px; background-color: #ffffff; border-radius: 2px; transition: all 0.3s linear; }
+    
+    @media (max-width: 900px) {
+      .agenda-layout { grid-template-columns: 1fr; gap: 40px; }
+      .booking-wrapper { min-height: 400px; }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-toggle { display: flex; }
+      .nav { position: fixed; top: 0; right: -100%; width: 75%; height: 100vh; background-color: #0b1d30; box-shadow: -5px 0 15px rgba(0,0,0,0.5); flex-direction: column; justify-content: center; align-items: center; gap: 30px; transition: right 0.3s ease-in-out; z-index: 1000; padding: 20px; backdrop-filter: blur(15px); }
+      .nav.open { right: 0; }
+      .mobile-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+      .mobile-toggle.open span:nth-child(2) { opacity: 0; }
+      .mobile-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+      .nav a { font-size: 1.2rem; width: 100%; text-align: center; }
+      .nav .cta { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="particles" id="particles"></div>
+
+  <div class="stock-ticker">
+    <div class="ticker-wrapper">
+      <div class="ticker-item"><span class="ticker-name">S&P 500</span><span class="ticker-val">4,783.45</span><span class="ticker-change up">▲ 0.54%</span></div>
+      <div class="ticker-item"><span class="ticker-name">NASDAQ</span><span class="ticker-val">15,310.97</span><span class="ticker-change up">▲ 0.89%</span></div>
+      <div class="ticker-item"><span class="ticker-name">IPC México</span><span class="ticker-val">55,432.10</span><span class="ticker-change up">▲ 0.21%</span></div>
+      <div class="ticker-item"><span class="ticker-name">USD/MXN</span><span class="ticker-val">17.05</span><span class="ticker-change down">▼ 0.08%</span></div>
+      <div class="ticker-item"><span class="ticker-name">UDI</span><span class="ticker-val">8.10</span><span class="ticker-change up">▲ 0.02%</span></div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="topbar">
+        <a href="index.html" class="brand">
+          <div class="brand-mark">CA</div>
+          <div class="brand-text">
+            <div class="brand-name">Cantú Asesores</div>
+            <div class="brand-sub">Allianz • AMIB Figura 3</div>
+          </div>
+        </a>
+
+        <button class="mobile-toggle" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+        <nav class="nav">
+          <a href="index.html">Inicio</a>
+          <a href="ppr.html">PPR</a>
+          <a href="productos.html">Productos</a>
+          <a href="inversion.html">Inversión</a>
+          <a href="agenda.html" class="active cta">Agendar</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" style="padding-top:60px;">
+      <div class="container">
+        
+        <div class="agenda-layout">
+          <div class="text-content">
+            <span class="badge">Sesión Gratuita</span>
+            <h1>Hablemos de Estrategia</h1>
+            <p class="lead">Sin letras chiquitas. Una sesión de 30 minutos para diagnosticar tu situación actual y trazar una ruta clara hacia tu retiro o meta financiera.</p>
+            
+            <div class="contact-card" style="margin-top:40px;">
+              <h3 style="margin-top:0;">Canales Directos</h3>
+              
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </div>
+                <div>
+                  <div style="font-weight:600; font-size:0.9rem;">WhatsApp VIP</div>
+                  <div style="font-size:0.85rem; color:var(--muted);">Respuesta rápida (Lun-Vie)</div>
+                  <a href="#" data-whatsapp class="link" style="font-size:0.85rem; margin-top:4px; display:inline-block;">Iniciar chat &rarr;</a>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                </div>
+                <div>
+                  <div style="font-weight:600; font-size:0.9rem;">Correo Electrónico</div>
+                  <div style="font-size:0.85rem; color:var(--muted);">Para dudas detalladas o adjuntar pólizas.</div>
+                  <a href="mailto:contacto@cantuasesores.com" class="link" style="font-size:0.85rem; margin-top:4px; display:inline-block;">contacto@cantuasesores.com</a>
+                </div>
+              </div>
+
+              <div class="contact-item" style="margin-bottom:0;">
+                <div class="contact-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
+                <div>
+                  <div style="font-weight:600; font-size:0.9rem;">Ubicación</div>
+                  <div style="font-size:0.85rem; color:var(--muted);">San Nicolás de los Garza, NL.<br>(Citas presenciales previa confirmación)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-content">
+            <div class="booking-wrapper">
+              
+              <div class="booking-placeholder-content">
+                <div style="font-size:3rem; margin-bottom:20px;">📅</div>
+                <h3>Agenda Digital</h3>
+                <p class="muted" style="max-width:300px; margin:0 auto 30px;">Selecciona el día y la hora que mejor te convenga para nuestra videollamada.</p>
+                <a class="btn primary" href="#" data-booking>Abrir Calendario Externo</a>
+                <p style="font-size:0.75rem; color:rgba(255,255,255,0.3); margin-top:20px;">(Próximamente calendario integrado)</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <p class="notice" style="margin-top:60px;">
+          <strong>Aviso de privacidad:</strong> Tus datos son tratados con estricta confidencialidad y utilizados únicamente para el propósito de esta asesoría. No compartimos información con terceros sin tu consentimiento.
+        </p>
+
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script defer src="assets/app.js"></script>
+  <script>
+    // ============================================
+    // MENU MÓVIL
+    // ============================================
+    const mobileToggle = document.querySelector('.mobile-toggle');
+    const nav = document.querySelector('.nav');
+    if (mobileToggle && nav) {
+      mobileToggle.addEventListener('click', () => {
+        nav.classList.toggle('open');
+        mobileToggle.classList.toggle('open');
+      });
+      nav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+           nav.classList.remove('open');
+           mobileToggle.classList.remove('open');
+        });
+      });
+    }
+
+    // ============================================
+    // WHATSAPP
+    // ============================================
+    document.querySelectorAll('[data-whatsapp]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const phoneNumber = '528180000000'; 
+        const message = encodeURIComponent('Hola Ricardo, me gustaría agendar una asesoría.');
+        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+      });
+    });
+
+    // ============================================
+    // BOTÓN DE AGENDA (Placeholder)
+    // ============================================
+    document.querySelectorAll('[data-booking]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // AQUÍ PUEDES PONER TU LINK DE CALENDLY SI NO USAS IFRAME
+        alert('Aquí se abriría tu link de Calendly o Google Calendar.');
+      });
+    });
+
+    // ============================================
+    // PARTÍCULAS
+    // ============================================
+    const particlesContainer = document.getElementById('particles');
+    if(particlesContainer) {
+        const particleCount = 20;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // ============================================
+    // ANIMACIONES SCROLL (Staggered)
+    // ============================================
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const fadeInObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Elementos a animar
+    const elementsToAnimate = document.querySelectorAll('.text-content, .booking-wrapper, .notice');
+    elementsToAnimate.forEach((el, index) => {
+      el.style.opacity = '0'; 
+      el.style.transform = 'translateY(30px)';
+      // Pequeño delay escalonado
+      let delay = index * 0.2; 
+      el.style.transition = `opacity 0.8s ease-out ${delay}s, transform 0.8s ease-out ${delay}s`;
+      fadeInObserver.observe(el);
+    });
+  </script>
+</body>
+</html>
